@@ -1,0 +1,210 @@
+---
+title: "Proyecto_Final"
+output: html_document
+date: "2024-05-19"
+---
+
+```{r}
+library(readr)
+library(tidyr)
+library(dplyr)
+library(factoextra)
+library(corrplot)
+
+```
+
+
+```{r}
+#Carga de todos los financial ratios
+A_financial_ratios <- read_csv("./financial_ratios/A_financial_ratios.csv")
+ABBV_financial_ratios <- read_csv("./financial_ratios/ABBV_financial_ratios.csv")
+ABT_financial_ratios <- read_csv("./financial_ratios/AMGN_financial_ratios.csv")
+AMGN_financial_ratios <- read_csv("./financial_ratios/ABT_financial_ratios.csv")
+BDX_financial_ratios <- read_csv("./financial_ratios/BDX_financial_ratios.csv")
+BIIB_financial_ratios <- read_csv("./financial_ratios/BIIB_financial_ratios.csv")
+BMY_financial_ratios <- read_csv("./financial_ratios/BMY_financial_ratios.csv")
+BSX_financial_ratios <- read_csv("./financial_ratios/BSX_financial_ratios.csv")
+CNC_financial_ratios <- read_csv("./financial_ratios/CNC_financial_ratios.csv")
+COR_financial_ratios <- read_csv("./financial_ratios/COR_financial_ratios.csv")
+CSV_financial_ratios <- read_csv("./financial_ratios/CSV_financial_ratios.csv")
+DHR_financial_ratios <- read_csv("./financial_ratios/DHR_financial_ratios.csv")
+DXCM_financial_ratios <- read_csv("./financial_ratios/DXCM_financial_ratios.csv")
+EW_financial_ratios <- read_csv("./financial_ratios/EW_financial_ratios.csv")
+GEHC_financial_ratios <- read_csv("./financial_ratios/GEHC_financial_ratios.csv")
+GILD_financial_ratios <- read_csv("./financial_ratios/GILD_financial_ratios.csv")
+HCA_financial_ratios <- read_csv("./financial_ratios/HCA_financial_ratios.csv")
+IDXX_financial_ratios <- read_csv("./financial_ratios/IDXX_financial_ratios.csv")
+IQV_financial_ratios <- read_csv("./financial_ratios/IQV_financial_ratios.csv")
+JNJ_financial_ratios <- read_csv("./financial_ratios/JNJ_financial_ratios.csv")
+LLY_financial_ratios <- read_csv("./financial_ratios/LLY_financial_ratios.csv")
+MCK_financial_ratios <- read_csv("./financial_ratios/MCK_financial_ratios.csv")
+MDT_financial_ratios <- read_csv("./financial_ratios/MDT_financial_ratios.csv")
+MRK_financial_ratios <- read_csv("./financial_ratios/MRK_financial_ratios.csv")
+MTD_financial_ratios <- read_csv("./financial_ratios/MTD_financial_ratios.csv")
+PFE_financial_ratios <- read_csv("./financial_ratios/PFE_financial_ratios.csv")
+REGN_financial_ratios <- read_csv("./financial_ratios/REGN_financial_ratios.csv")
+RMD_financial_ratios <- read_csv("./financial_ratios/RMD_financial_ratios.csv")
+TMO_financial_ratios <- read_csv("./financial_ratios/TMO_financial_ratios.csv")
+UNH_financial_ratios <- read_csv("./financial_ratios/UNH_financial_ratios.csv")
+WST_financial_ratios <- read_csv("./financial_ratios/DHR_financial_ratios.csv")
+ZBH_financial_ratios <- read_csv("./financial_ratios/DHR_financial_ratios.csv")
+ZTS_financial_ratios <- read_csv("./financial_ratios/DHR_financial_ratios.csv")
+```
+
+
+```{r}
+# Lista de dataframes y nombres de empresas
+dfs <- list(
+  A=A_financial_ratios, 
+  ABBV=ABBV_financial_ratios,
+  ABT=ABT_financial_ratios,
+  AMGN=AMGN_financial_ratios,
+  BDX=BDX_financial_ratios,
+  BIIB=BIIB_financial_ratios,
+  BMY=BMY_financial_ratios,
+  BSX=BSX_financial_ratios,
+  CNC=CNC_financial_ratios,
+  COR=COR_financial_ratios,
+  CSV=CSV_financial_ratios,
+  DHR=DHR_financial_ratios,
+  DXCM=DXCM_financial_ratios,
+  EW=EW_financial_ratios,
+  GEHC=GEHC_financial_ratios,
+  GILD=GILD_financial_ratios,
+  HCA=HCA_financial_ratios,
+  IDXX=IDXX_financial_ratios,
+  IQV=IQV_financial_ratios,
+  JNJ=JNJ_financial_ratios,
+  LLY=LLY_financial_ratios,
+  MCK=MCK_financial_ratios,
+  MDT=MDT_financial_ratios,
+  MRK=MRK_financial_ratios,
+  MTD=MTD_financial_ratios,
+  PFE=PFE_financial_ratios,
+  REGN=REGN_financial_ratios,
+  RMD=RMD_financial_ratios,
+  TMO=TMO_financial_ratios,
+  UNH=UNH_financial_ratios,
+  WST=WST_financial_ratios,
+  ZBH=ZBH_financial_ratios,
+  ZTS=ZTS_financial_ratios
+)
+
+# Función para transformar cada dataframe
+transform_df <- function(df, company_name) {
+  df %>%
+    rename(Razóm = Razón, Valor = Valor) %>%
+    pivot_wider(names_from = Razóm, values_from = Valor) %>%
+    mutate(Company = company_name) %>%
+    select(Company, everything())
+}
+
+# Transformar y combinar todos los dataframes
+Razones_Financieras <- bind_rows(lapply(names(dfs), function(name) transform_df(dfs[[name]], name)))
+```
+
+```{r}
+Razones_Financieras <- subset(Razones_Financieras, select = -c(InvAct,rotinv, diainv, diacxc))
+```
+
+
+```{r}
+Razones_Financieras[, -1] <- lapply(Razones_Financieras[, -1], function(x) as.numeric(as.character(x)))
+Razones_Financieras<-na.omit(Razones_Financieras)
+
+
+
+rownames(Razones_Financieras)<-Razones_Financieras$Company  
+rownames_vec <- rownames(Razones_Financieras)
+Razones_Financieras<-Razones_Financieras[, -1]
+rownames(Razones_Financieras)<-rownames_vec
+str(Razones_Financieras)
+
+```
+
+
+
+```{r}
+summary(Razones_Financieras)
+```
+
+
+## Matriz de Correlación
+```{r}
+R <- cor(Razones_Financieras, use = "pairwise.complete.obs")
+corrplot(R, type = "upper", method = "ellipse",tl.cex = 0.9)
+```
+
+
+```{r}
+comp_principales<-prcomp(Razones_Financieras)
+fviz_screeplot(comp_principales)
+summary(comp_principales)
+```
+
+### Contribución de las variabels a cada CP
+```{r}
+comp_principales$rotation
+```
+
+
+##Biplot: Visualización de las variables que contribuyen más a las primeras 2 CP
+
+mutlcap y pascc son medidas para cp1
+cobinter es para cp2
+```{r}
+fviz_pca_biplot(comp_principales,repel = T,geom.ind = "point")
+```
+
+
+
+```{r}
+comp_principales<-prcomp(Razones_Financieras, rank.=3)
+prueba2<-comp_principales$x
+fviz_nbclust(prueba2, FUNcluster=kmeans, k.max = 25) 
+```
+
+```{r}
+fviz_contrib(comp_principales, choice = "var", axes = 1)
+```
+
+
+```{r}
+fviz_contrib(comp_principales, choice = "var", axes = 2)
+```
+
+```{r}
+fviz_contrib(comp_principales, choice = "var", axes = 3)
+```
+
+```{r}
+kmeans1<-eclust(prueba2, "kmeans", hc_metric="eucliden",k=3)
+```
+
+
+```{r}
+#Comparación con K-means a partir del DataFrame original (sin el PCA)
+kmeans2<-eclust(Razones_Financieras, "kmeans", hc_metric="eucliden",k=3)
+
+```
+
+```{r}
+fviz_silhouette(kmeans1) 
+```
+
+```{r}
+fviz_silhouette(kmeans2) 
+```
+
+
+```{r}
+colnames(Razones_Financieras)
+```
+
+```{r}
+dm<-dist(prueba2) 
+hc<-hclust(dm, method="complete") # simple dendrogram
+plot(hc, hang=-1) 
+rect.hclust(hc, k=3, border="red") 
+```
+
