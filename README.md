@@ -12,7 +12,7 @@
 
 ## Objective
 
-The objective of this study is to optimize financial analysis in the pharmaceutical sector by applying Principal Component Analysis (PCA) and Clustering. We aim to identify the principal components that capture the most variability in the financial data, determine the variables that compose them, and form clusters of companies with similar financial characteristics. Additionally, we leverage PySpark for real-time stock data streaming and analysis with SARIMAX model and a correlation matrix analysis
+The objective of my study is to optimize financial analysis in the pharmaceutical sector by applying Principal Component Analysis (PCA) and Clustering. I aim to identify the principal components that capture the most variability in the financial data, determine the variables that compose them, and form clusters of companies with similar financial characteristics. Additionally, I leverage PySpark for real-time stock data streaming and analysis with a SARIMAX model and a correlation matrix analysis.
 
 <br>
 
