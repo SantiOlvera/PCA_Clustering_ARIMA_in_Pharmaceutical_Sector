@@ -9,8 +9,6 @@
 ## Team
 
 - [Santiago Olver Moreno](https://github.com/SantiOlvera), Data Science and Actuarial Science Double Bachelor Program student at ITAM.
-- [Victor Hugo Esparza Díaz](https://github.com/VictorHEsp), Data Science and Actuarial Science Double Bachelor Program student at ITAM.
-- [Fernando Colunga Díaz](https://github.com/fcolunga82), Actuarial Science Bachelor Program student at ITAM.
 
 ## Objective
 
