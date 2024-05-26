@@ -1,4 +1,4 @@
-# Optimización del Análisis Financiero en el Sector Farmacéutico a través de PCA y Clustering
+# PCA_Clustering_ARIMA_in_Pharmaceutical_Sector
 
 <p align="center">
   <img width="800" height="500" src="https://www.investywise.com/wp-content/uploads/2020/02/financial-ratios-large.png">
