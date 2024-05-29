@@ -35,3 +35,6 @@ The objective of my study is to optimize financial analysis in the pharmaceutica
 - 2. Open the Proyecto_Final.Rmd file in RStudio to access my analysis of pharmaceutical companies. Run the code chunks to reproduce the analysis.
 - 3. Open the Dashboard.R file in RStudio to access the Shiny app comparing pharmaceutical and communication/entertainment companies. Run the app to explore the comparative analysis interactively.
 - 4. In your terminal, run the following command to access the real-time streaming:  streamlit run Dashboard_Streamlit2.py
+ 
+## Video dashboard streamlit
+https://www.dropbox.com/scl/fi/mh6dvviju7q5jlhiaoqhn/Screen-Recording-2024-05-28-at-9.27.57-a.m..mov?rlkey=9nmqf8mm2l3gxuvsfd5vku1xj&st=x7xwdv30&dl=0
